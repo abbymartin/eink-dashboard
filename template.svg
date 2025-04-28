@@ -27,132 +27,132 @@
 
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0;font-family: monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family: monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="currtemp"
       x="10"
       y="20">XX</text>
 
-   <image x="30" y="6" width="20" xlink:href="icons/0.svg" id="curricon" />
+   <!-- <image x="30" y="6" width="20" xlink:href="icons/0.svg" id="curricon" /> -->
 
    <text
       xml:space="preserve"
       id="high"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       x="10"
-      y="40">High:
+      y="45">High:
    </text>
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="hightemp"
       x="44"
-      y="40">XX</text>
+      y="45">XX</text>
 
     <text
       xml:space="preserve"
       id="low"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;fill:#000000;;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;fill:#000000;;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       x="80"
-      y="40">Low:</text>
+      y="45">Low:</text>
 
     <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family:monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="lowtemp"
       x="108"
-      y="40">XX</text>
+      y="45">XX</text>
    
    <!-- Hourly forecast-->
 
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time0"
       x="7"
       y="67">XPM</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time1"
       x="32"
       y="67">XPM</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time2"
       x="57"
       y="67">XPM</text>
 
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time3"
       x="82"
       y="67">XPM</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time4"
       x="107"
       y="67">XPM</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:9px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="time5"
       x="132"
       y="67">XPM</text>
 
-   <image x="5" y="70" width="20" xlink:href="icons/0.svg" id="icon0" />
+   <!-- <image x="5" y="70" width="20" xlink:href="icons/0.svg" id="icon0" />
    <image x="30" y="70" width="20" xlink:href="icons/0.svg" id="icon1" />
    <image x="55" y="70" width="20" xlink:href="icons/0.svg" id="icon2" />
    <image x="80" y="70" width="20" xlink:href="icons/0.svg" id="icon3" />
    <image x="105" y="70" width="20" xlink:href="icons/0.svg" id="icon4" />
-   <image x="130" y="70" width="20" xlink:href="icons/0.svg" id="icon5" />
+   <image x="130" y="70" width="20" xlink:href="icons/0.svg" id="icon5" /> -->
 
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text0"
       x="9"
-      y="100">XX</text>
+      y="110">XX</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text1"
       x="34"
-      y="100">XX</text>
+      y="110">XX</text>
 
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text2"
       x="59"
-      y="100">XX</text>
+      y="110">XX</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text3"
       x="84"
-      y="100">XX</text>
+      y="110">XX</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text4"
       x="109"
-      y="100">XX</text>
+      y="110">XX</text>
    
    <text
       xml:space="preserve"
-      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="text5"
       x="134"
-      y="100">XX</text>
+      y="110">XX</text>
   </g>
 </svg>
