@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="600"
+   height="800"
+   viewBox="0 0 158.75 211.66667"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="template.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+/>
+  <defs
+     id="defs2" />
+  <g
+     id="layer1">
+    <rect width="100%" height="100%" fill="white"/>
+    <text
+       xml:space="preserve"
+
+      id="high"
+      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0;font-family:'Helvetica Neue';text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      x="10"
+      y="41.226921">High:
+      </text>
+    <text
+       xml:space="preserve"
+       id="low"
+      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0;font-family:'Helvetica Neue';fill:#000000;;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      x="10"
+      y="81.941559">Low:</text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0;font-family:'Helvetica Neue';text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      id="hightemp"
+      x="90"
+      y="42.112675">XX</text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32px;line-height:0;font-family:'Helvetica Neue';text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+
+      id="lowtemp"
+      x="90"
+      y="82.027962">XX</text>
+  </g>
+</svg>
