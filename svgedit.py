@@ -23,7 +23,7 @@ params = {
 	"wind_speed_unit": "mph",
 	"temperature_unit": "fahrenheit",
 	"precipitation_unit": "inch",
-    "forecast_days": 1
+    "forecast_days": 2
 }
 responses = openmeteo.weather_api(url, params=params)
 response = responses[0]
@@ -86,6 +86,8 @@ for elem in svg:
             if hour > 12: 
                 txt = 'PM'
                 hour-= 12
+            if hour == 0:
+                hour = 12
             elem.text=str(hour)+txt
         case _ if (m := re.fullmatch(r"text(\d+)", str(id))): #temps for next 6 hours
             num = int(m.group(1))
