@@ -10,10 +10,7 @@ def convert(svg_file, png_file):
                                                  background_color.resource) 
             svg_blob = svg_file.read().encode('utf-8')
             image.read(blob=svg_blob)
-            png_image = image.make_blob("png32")
+            png_image = image.make_blob("png8")
 
     with open(png_file, "wb") as out:
         out.write(png_image)
-
-
-convert("dash.svg", "dash.png")

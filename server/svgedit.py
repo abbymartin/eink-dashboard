@@ -69,11 +69,9 @@ def update_svg():
     high, low, current_temp, current_weather_code, hourly_dataframe = get_weather()
 
     date = datetime.now()
-    date_formatted = date.strftime("%A %B %d, %Y")
-
 
     #modify svg template
-    xml = etree.parse('template.svg')
+    xml = etree.parse('static/template.svg')
     svg = xml.getroot()[2]
 
     for elem in svg:
@@ -107,7 +105,7 @@ def update_svg():
     #embed icons because linking file does not work when converting to png
 
     #current weather icon
-    icon_xml = etree.parse(f"icons/{int(current_weather_code)}.svg")
+    icon_xml = etree.parse(f"static/icons/{int(current_weather_code)}.svg")
     icon = icon_xml.getroot()
     icon.set('x', '80')
     icon.set('y', '2')
@@ -115,13 +113,13 @@ def update_svg():
 
     #next 6 hours
     for i in range(6):
-        icon_xml = etree.parse(f"icons/{int(hourly_dataframe['weather_code'][i+currhour+1])}.svg")
+        icon_xml = etree.parse(f"static/icons/{int(hourly_dataframe['weather_code'][i+currhour+1])}.svg")
         icon = icon_xml.getroot()
         icon.set('id', 'icon'+str(i))
         icon.set('x', str(25*i))
         icon.set('y', '76')
         svg.append(icon)  
     #updated svg
-    xml.write('dash.svg')
+    xml.write('static/dash.svg')
 
 update_svg()
