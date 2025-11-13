@@ -41,7 +41,7 @@
       xml:space="preserve"
       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:0;font-family: monospace;text-align:center;text-anchor:left;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
       id="currtemp"
-      x="115"
+      x="125"
       y="20">XX</text>
 
    <text
@@ -157,5 +157,17 @@
       id="text5"
       x="133"
       y="115">XX</text>
+   
+   <text
+      xml:space="preserve"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      x="10"
+      y="134">Ashmont/Braintree</text>
+   
+   <text
+      xml:space="preserve"
+      style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10px;line-height:0;font-family:monospace;text-align:center;text-anchor:center;fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.97391;stroke-linecap:round;stroke-linejoin:bevel;stroke-dashoffset:0.0755906;paint-order:stroke markers fill"
+      x="10"
+      y="175">Alewife</text>
   </g>
 </svg>
