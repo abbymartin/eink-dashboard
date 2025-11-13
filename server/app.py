@@ -21,4 +21,4 @@ def serve_chart():
 
 if __name__ == '__main__':
     threading.Thread(target=background_updater, daemon=True).start()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

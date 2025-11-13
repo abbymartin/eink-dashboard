@@ -23,6 +23,8 @@ mbta_session = requests_cache.CachedSession(
     expire_after=timedelta(minutes=5)
 )
 
+dir_names = ['Ashmont/Braintree', 'Alewife']
+
 # get weather data from openmeto api
 def get_weather():
 
@@ -74,8 +76,30 @@ def get_weather():
 
     return high, low, current_temp, current_weather_code, hourly_dataframe
 
+def get_display_time(diff, vehicle, stops):
+    if diff < timedelta(0): # train has already left
+        return None
+
+    status = vehicle['attributes']['current_status']
+    stop_id = vehicle['relationships']['stop']['data']['id']
+    stop_name = stops[stop_id]['attributes']['name']
+
+    if status == 'STOPPED_AT' and stop_name == 'CENTRAL':
+        return 'BRD'
+    elif diff <= timedelta(seconds = 30):
+        return 'ARR' # arriving
+    elif diff <= timedelta(seconds = 60):
+        return '1 min' # approaching
+    
+    minutes = round(diff.total_seconds() / 60)
+
+    if minutes > 20:
+        return '20+ min'
+    else:
+        return str(minutes) + ' min'
+
 # get mbta train times for central (make into param later)
-def get_train():
+def get_trains():
     url = 'https://api-v3.mbta.com/predictions?filter[stop]=place-cntsq&include=vehicle,vehicle.stop'
     params = {
         "api_key": os.getenv('MBTA_KEY')
@@ -89,9 +113,9 @@ def get_train():
     included = response_json['included']
     stops = {}
     vehicles = {}
-    
-    #2025-11-12T22:39:39-05:00
-    
+
+    near_trains = [[], []]
+
     for item in included:
         if item['type'] == 'stop':
             stops[item['id']] = item
@@ -99,21 +123,36 @@ def get_train():
             vehicles[item['id']] = item
 
     for i, pred in enumerate(response_json['data']):
-        print('TRAIN', i)
-        dir = pred['attributes']['direction_id']
+        if pred is None:
+            continue
+
+        departure_str = pred['attributes']['departure_time']
+        if departure_str is None: # means train is unable to be boarded
+            continue
 
         arrival_str = pred['attributes']['arrival_time']
+        if arrival_str is None:
+            continue
+
+        dir = pred['attributes']['direction_id']
+
+        if len(near_trains[dir]) >= 3:
+            continue
+
         arrival_time = datetime.fromisoformat(arrival_str)
-        print('arriving in', arrival_time - curr_time)
-
+        diff = arrival_time - curr_time
         vehicle = vehicles[pred['relationships']['vehicle']['data']['id']]
-        status = vehicle['attributes']['current_status']
 
-        # check which station the train is at
-        if status == 'STOPPED_AT':
-            stop_id = vehicle['relationships']['stop']['data']['id']
-            stop_name = stops[stop_id]['attributes']['name']
-            print('stopped at', stop_name)
+        display_time = get_display_time(diff, vehicle, stops)
+        if display_time is None:
+            continue
+        
+        print(dir_names[dir])
+        print(display_time)
+        near_trains[dir].append(display_time)
+    
+    return near_trains
+            
 
 def update_svg():
     # get weather data
@@ -169,9 +208,25 @@ def update_svg():
         icon.set('id', 'icon'+str(i))
         icon.set('x', str(25*i))
         icon.set('y', '76')
-        svg.append(icon)  
+        svg.append(icon)
+    
+    # train info
+    near_trains = get_trains()
+    y_pos = 145
+    for i, dir_trains in enumerate(near_trains):
+        for j, time in enumerate(dir_trains):
+            text = etree.SubElement(svg, 'text', {
+                'x': '10',
+                'y': str(y_pos + j * 8 + i * 41),
+                'font-style': 'normal',
+                'font-weight': 'bold',
+                'font-size': '9px',
+                'font-family': 'monospace'
+            })
+            text.text = time
+            # title
+            # 
+            #for time in near_trains[dir]:             
+
     # updated svg
     xml.write('static/dash.svg')
-
-get_train()
-update_svg()
