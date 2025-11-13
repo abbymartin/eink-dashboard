@@ -7,14 +7,24 @@ from lxml import etree
 import re 
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from zoneinfo import ZoneInfo
+
+import json
 
 load_dotenv()
 
-#get weather data from openmeto api
+cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+openmeteo = openmeteo_requests.Client(session = retry_session)
+
+mbta_session = requests_cache.CachedSession(
+    'cache_mbta', 
+    backend='sqlite',
+    expire_after=timedelta(minutes=5)
+)
+
+# get weather data from openmeto api
 def get_weather():
-    cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
-    retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
-    openmeteo = openmeteo_requests.Client(session = retry_session)
 
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
@@ -32,12 +42,12 @@ def get_weather():
     responses = openmeteo.weather_api(url, params=params)
     response = responses[0]
 
-    #current data
+    # current data
     current = response.Current()
     current_temp = current.Variables(0).Value()
-    current_weather_code = current.Variables(1).Value() #corresponds to weather type icon
+    current_weather_code = current.Variables(1).Value() # corresponds to weather type icon
 
-    #daily data: temp/weather for each hour
+    # daily data: temp/weather for each hour
     hourly = response.Hourly()
     hourly_temp = hourly.Variables(0).ValuesAsNumpy()
     hourly_weather_code = hourly.Variables(1).ValuesAsNumpy()
@@ -54,7 +64,7 @@ def get_weather():
 
     hourly_dataframe = pd.DataFrame(data = hourly_data)
 
-    #daily data: get high/low temp for current day
+    # daily data: get high/low temp for current day
     daily = response.Daily()
     daily_temp_max = daily.Variables(0).ValuesAsNumpy()
     daily_temp_min = daily.Variables(1).ValuesAsNumpy()
@@ -64,18 +74,59 @@ def get_weather():
 
     return high, low, current_temp, current_weather_code, hourly_dataframe
 
+# get mbta train times for central (make into param later)
+def get_train():
+    url = 'https://api-v3.mbta.com/predictions?filter[stop]=place-cntsq&include=vehicle,vehicle.stop'
+    params = {
+        "api_key": os.getenv('MBTA_KEY')
+    }
+
+    curr_time = datetime.now(ZoneInfo("America/New_York"))
+
+    response = mbta_session.get(url, params=params)
+    response_json = response.json()
+
+    included = response_json['included']
+    stops = {}
+    vehicles = {}
+    
+    #2025-11-12T22:39:39-05:00
+    
+    for item in included:
+        if item['type'] == 'stop':
+            stops[item['id']] = item
+        elif item['type'] == 'vehicle':
+            vehicles[item['id']] = item
+
+    for i, pred in enumerate(response_json['data']):
+        print('TRAIN', i)
+        dir = pred['attributes']['direction_id']
+
+        arrival_str = pred['attributes']['arrival_time']
+        arrival_time = datetime.fromisoformat(arrival_str)
+        print('arriving in', arrival_time - curr_time)
+
+        vehicle = vehicles[pred['relationships']['vehicle']['data']['id']]
+        status = vehicle['attributes']['current_status']
+
+        # check which station the train is at
+        if status == 'STOPPED_AT':
+            stop_id = vehicle['relationships']['stop']['data']['id']
+            stop_name = stops[stop_id]['attributes']['name']
+            print('stopped at', stop_name)
+
 def update_svg():
-    #get weather data
+    # get weather data
     high, low, current_temp, current_weather_code, hourly_dataframe = get_weather()
 
     date = datetime.now()
 
-    #modify svg template
+    # modify svg template
     xml = etree.parse('static/template.svg')
     svg = xml.getroot()[2]
 
     for elem in svg:
-        currhour = datetime.now().hour
+        currhour = date.hour
         id = elem.get('id')
         match(id):
             case('weekday'):
@@ -88,7 +139,7 @@ def update_svg():
                 elem.text = str(int(high))+'°'
             case('lowtemp'):
                 elem.text = str(int(low))+'°'
-            case _ if (m := re.fullmatch(r"time(\d+)", str(id))): #next 6 hours
+            case _ if (m := re.fullmatch(r"time(\d+)", str(id))): # next 6 hours
                 num = int(m.group(1))
                 hour = (hourly_dataframe['date'][num+currhour+1] - timedelta(hours=4)).hour
                 txt = 'AM'
@@ -98,20 +149,20 @@ def update_svg():
                 if hour == 0:
                     hour = 12
                 elem.text=str(hour)+txt
-            case _ if (m := re.fullmatch(r"text(\d+)", str(id))): #temps for next 6 hours
+            case _ if (m := re.fullmatch(r"text(\d+)", str(id))): # temps for next 6 hours
                 num = int(m.group(1))
                 elem.text=str(int(hourly_dataframe['temperature_2m'][num+currhour+1]))+'°'
 
-    #embed icons because linking file does not work when converting to png
+    # embed icons because linking file does not work when converting to png
 
-    #current weather icon
+    # current weather icon
     icon_xml = etree.parse(f"static/icons/{int(current_weather_code)}.svg")
     icon = icon_xml.getroot()
-    icon.set('x', '80')
+    icon.set('x', '94')
     icon.set('y', '2')
     svg.append(icon)
 
-    #next 6 hours
+    # next 6 hours
     for i in range(6):
         icon_xml = etree.parse(f"static/icons/{int(hourly_dataframe['weather_code'][i+currhour+1])}.svg")
         icon = icon_xml.getroot()
@@ -119,7 +170,8 @@ def update_svg():
         icon.set('x', str(25*i))
         icon.set('y', '76')
         svg.append(icon)  
-    #updated svg
+    # updated svg
     xml.write('static/dash.svg')
 
+get_train()
 update_svg()
