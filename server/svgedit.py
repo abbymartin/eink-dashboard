@@ -76,8 +76,8 @@ def get_weather():
 
     return high, low, current_temp, current_weather_code, hourly_dataframe
 
-def get_display_time(diff, vehicle, stops):
-    if diff < timedelta(0): # train has already left
+def get_display_time(diff_time, vehicle, stops):
+    if diff_time < timedelta(0): # train has already left
         return None
 
     status = vehicle['attributes']['current_status']
@@ -86,12 +86,12 @@ def get_display_time(diff, vehicle, stops):
 
     if status == 'STOPPED_AT' and stop_name == 'CENTRAL':
         return 'BRD'
-    elif diff <= timedelta(seconds = 30):
+    elif diff_time <= timedelta(seconds = 30):
         return 'ARR' # arriving
-    elif diff <= timedelta(seconds = 60):
+    elif diff_time <= timedelta(seconds = 60):
         return '1 min' # approaching
     
-    minutes = round(diff.total_seconds() / 60)
+    minutes = round(diff_time.total_seconds() / 60)
 
     if minutes > 20:
         return '20+ min'
@@ -140,15 +140,13 @@ def get_trains():
             continue
 
         arrival_time = datetime.fromisoformat(arrival_str)
-        diff = arrival_time - curr_time
+        diff_time = arrival_time - curr_time
         vehicle = vehicles[pred['relationships']['vehicle']['data']['id']]
 
-        display_time = get_display_time(diff, vehicle, stops)
+        display_time = get_display_time(diff_time, vehicle, stops)
         if display_time is None:
             continue
         
-        print(dir_names[dir])
-        print(display_time)
         near_trains[dir].append(display_time)
     
     return near_trains
@@ -223,10 +221,7 @@ def update_svg():
                 'font-size': '9px',
                 'font-family': 'monospace'
             })
-            text.text = time
-            # title
-            # 
-            #for time in near_trains[dir]:             
+            text.text = time       
 
     # updated svg
     xml.write('static/dash.svg')

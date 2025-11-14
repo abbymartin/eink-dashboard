@@ -13,7 +13,7 @@ def background_updater():
             convert("static/dash.svg", "static/dash.png")
         except Exception as e:
             print(f"Error updating chart: {e}")
-        time.sleep(3600)
+        time.sleep(20)
 
 @app.route('/dash')
 def serve_chart():
