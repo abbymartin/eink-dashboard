@@ -8,40 +8,41 @@ import re
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from zoneinfo import ZoneInfo
-
 import json
 
 load_dotenv()
 
+meteo_url = "https://api.open-meteo.com/v1/forecast"
+meteo_params = {
+    "latitude": os.getenv('COORD_LAT'),
+    "longitude": os.getenv('COORD_LONG'),
+    "hourly":  ["temperature_2m", "weather_code"],
+    "current": ["temperature_2m", "weather_code"],
+    "daily":   ["temperature_2m_max", "temperature_2m_min"],
+    "timezone": "America/New_York",
+    "wind_speed_unit": "mph",
+    "temperature_unit": "fahrenheit",
+    "precipitation_unit": "inch",
+    "forecast_days": 2
+}
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
 openmeteo = openmeteo_requests.Client(session = retry_session)
 
+mbta_url = 'https://api-v3.mbta.com/predictions?filter[stop]=place-cntsq&include=vehicle,vehicle.stop'
+mbta_params = {
+    "api_key": os.getenv('MBTA_KEY')
+}
 mbta_session = requests_cache.CachedSession(
     'cache_mbta', 
-    backend='sqlite',
-    expire_after=timedelta(minutes=5)
+    backend = 'sqlite',
+    expire_after = timedelta(minutes=5)
 )
-
-dir_names = ['Ashmont/Braintree', 'Alewife']
+direction_names = ['Ashmont/Braintree', 'Alewife']
 
 # get weather data from openmeto api
 def get_weather():
-
-    url = "https://api.open-meteo.com/v1/forecast"
-    params = {
-        "latitude": os.getenv('COORD_LAT'),
-        "longitude": os.getenv('COORD_LONG'),
-        "hourly":  ["temperature_2m", "weather_code"],
-        "current": ["temperature_2m", "weather_code"],
-        "daily":   ["temperature_2m_max", "temperature_2m_min"],
-        "timezone": "America/New_York",
-        "wind_speed_unit": "mph",
-        "temperature_unit": "fahrenheit",
-        "precipitation_unit": "inch",
-        "forecast_days": 2
-    }
-    responses = openmeteo.weather_api(url, params=params)
+    responses = openmeteo.weather_api(meteo_url, params=meteo_params)
     response = responses[0]
 
     # current data
@@ -76,6 +77,7 @@ def get_weather():
 
     return high, low, current_temp, current_weather_code, hourly_dataframe
 
+# return display time string based on timedelta until train prediction
 def get_display_time(diff_time, vehicle, stops):
     if diff_time < timedelta(0): # train has already left
         return None
@@ -95,19 +97,14 @@ def get_display_time(diff_time, vehicle, stops):
 
     if minutes > 20:
         return '20+ min'
-    else:
-        return str(minutes) + ' min'
+    
+    return str(minutes) + ' min'
 
-# get mbta train times for central (make into param later)
+# get mbta train times
 def get_trains():
-    url = 'https://api-v3.mbta.com/predictions?filter[stop]=place-cntsq&include=vehicle,vehicle.stop'
-    params = {
-        "api_key": os.getenv('MBTA_KEY')
-    }
-
     curr_time = datetime.now(ZoneInfo("America/New_York"))
 
-    response = mbta_session.get(url, params=params)
+    response = mbta_session.get(mbta_url, params=mbta_params)
     response_json = response.json()
 
     included = response_json['included']
@@ -122,7 +119,7 @@ def get_trains():
         elif item['type'] == 'vehicle':
             vehicles[item['id']] = item
 
-    for i, pred in enumerate(response_json['data']):
+    for pred in response_json['data']:
         if pred is None:
             continue
 
@@ -134,9 +131,9 @@ def get_trains():
         if arrival_str is None:
             continue
 
-        dir = pred['attributes']['direction_id']
+        direction = pred['attributes']['direction_id']
 
-        if len(near_trains[dir]) >= 3:
+        if len(near_trains[direction]) >= 3:
             continue
 
         arrival_time = datetime.fromisoformat(arrival_str)
@@ -147,7 +144,7 @@ def get_trains():
         if display_time is None:
             continue
         
-        near_trains[dir].append(display_time)
+        near_trains[direction].append(display_time)
     
     return near_trains
             
@@ -211,8 +208,8 @@ def update_svg():
     # train info
     near_trains = get_trains()
     y_pos = 145
-    for i, dir_trains in enumerate(near_trains):
-        for j, time in enumerate(dir_trains):
+    for i, trains in enumerate(near_trains):
+        for j, time in enumerate(trains):
             text = etree.SubElement(svg, 'text', {
                 'x': '10',
                 'y': str(y_pos + j * 8 + i * 41),
