@@ -1,3 +1,4 @@
+import config
 import os
 import openmeteo_requests
 import requests_cache
@@ -12,37 +13,19 @@ import json
 
 load_dotenv()
 
-meteo_url = "https://api.open-meteo.com/v1/forecast"
-meteo_params = {
-    "latitude": os.getenv('COORD_LAT'),
-    "longitude": os.getenv('COORD_LONG'),
-    "hourly":  ["temperature_2m", "weather_code"],
-    "current": ["temperature_2m", "weather_code"],
-    "daily":   ["temperature_2m_max", "temperature_2m_min"],
-    "timezone": "America/New_York",
-    "wind_speed_unit": "mph",
-    "temperature_unit": "fahrenheit",
-    "precipitation_unit": "inch",
-    "forecast_days": 2
-}
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
 openmeteo = openmeteo_requests.Client(session = retry_session)
 
-mbta_url = 'https://api-v3.mbta.com/predictions?filter[stop]=place-cntsq&include=vehicle,vehicle.stop'
-mbta_params = {
-    "api_key": os.getenv('MBTA_KEY')
-}
 mbta_session = requests_cache.CachedSession(
     'cache_mbta', 
     backend = 'sqlite',
     expire_after = timedelta(minutes=5)
 )
-direction_names = ['Ashmont/Braintree', 'Alewife']
 
 # get weather data from openmeto api
 def get_weather():
-    responses = openmeteo.weather_api(meteo_url, params=meteo_params)
+    responses = openmeteo.weather_api(config.METEO_URL, params=config.METEO_PARAMS)
     response = responses[0]
 
     # current data
@@ -78,7 +61,7 @@ def get_weather():
     return high, low, current_temp, current_weather_code, hourly_dataframe
 
 # return display time string based on timedelta until train prediction
-def get_display_time(diff_time, vehicle, stops):
+def get_display_time(diff_time, vehicle, stops, station_name):
     if diff_time < timedelta(0): # train has already left
         return None
 
@@ -101,10 +84,10 @@ def get_display_time(diff_time, vehicle, stops):
     return str(minutes) + ' min'
 
 # get mbta train times
-def get_trains():
-    curr_time = datetime.now(ZoneInfo("America/New_York"))
+def get_trains(station_name, timezone):
+    curr_time = datetime.now(ZoneInfo(timezone))
 
-    response = mbta_session.get(mbta_url, params=mbta_params)
+    response = mbta_session.get(config.MBTA_URL, params=config.MBTA_PARAMS)
     response_json = response.json()
 
     included = response_json['included']
@@ -140,7 +123,7 @@ def get_trains():
         diff_time = arrival_time - curr_time
         vehicle = vehicles[pred['relationships']['vehicle']['data']['id']]
 
-        display_time = get_display_time(diff_time, vehicle, stops)
+        display_time = get_display_time(diff_time, vehicle, stops, station_name)
         if display_time is None:
             continue
         
@@ -206,7 +189,7 @@ def update_svg():
         svg.append(icon)
     
     # train info
-    near_trains = get_trains()
+    near_trains = get_trains(config.STATION_NAME, config.TIMEZONE)
     y_pos = 145
     for i, trains in enumerate(near_trains):
         for j, time in enumerate(trains):
