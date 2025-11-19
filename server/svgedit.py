@@ -1,5 +1,4 @@
 import config
-import os
 import openmeteo_requests
 import requests_cache
 import pandas as pd
@@ -7,11 +6,7 @@ from retry_requests import retry
 from lxml import etree
 import re 
 from datetime import datetime, timedelta
-from dotenv import load_dotenv
 from zoneinfo import ZoneInfo
-import json
-
-load_dotenv()
 
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
@@ -69,7 +64,7 @@ def get_display_time(diff_time, vehicle, stops, station_name):
     stop_id = vehicle['relationships']['stop']['data']['id']
     stop_name = stops[stop_id]['attributes']['name']
 
-    if status == 'STOPPED_AT' and stop_name == 'CENTRAL':
+    if status == 'STOPPED_AT' and stop_name == station_name:
         return 'BRD'
     elif diff_time <= timedelta(seconds = 30):
         return 'ARR' # arriving
@@ -205,3 +200,5 @@ def update_svg():
 
     # updated svg
     xml.write('static/dash.svg')
+
+update_svg()
