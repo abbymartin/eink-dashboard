@@ -9,7 +9,7 @@ METEO_PARAMS = {
     "longitude": os.getenv('COORD_LONG'),
     "hourly":  ["temperature_2m", "weather_code"],
     "current": ["temperature_2m", "weather_code"],
-    "daily":   ["temperature_2m_max", "temperature_2m_min"],
+    "daily":   ["temperature_2m_max", "temperature_2m_min", "sunset", "sunrise"],
     "timezone": "America/New_York",
     "wind_speed_unit": "mph",
     "temperature_unit": "fahrenheit",

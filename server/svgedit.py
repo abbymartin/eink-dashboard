@@ -47,13 +47,12 @@ def get_weather():
 
     # daily data: get high/low temp for current day
     daily = response.Daily()
-    daily_temp_max = daily.Variables(0).ValuesAsNumpy()
-    daily_temp_min = daily.Variables(1).ValuesAsNumpy()
+    high = daily.Variables(0).ValuesAsNumpy()[0]
+    low = daily.Variables(1).ValuesAsNumpy()[0]
+    sunset = daily.Variables(2).ValuesInt64AsNumpy()[1]
+    sunrise = daily.Variables(3).ValuesInt64AsNumpy()[1]
 
-    high = daily_temp_max[0]
-    low = daily_temp_min[0]
-
-    return high, low, current_temp, current_weather_code, hourly_dataframe
+    return high, low, current_temp, current_weather_code, hourly_dataframe, sunset, sunrise
 
 # return display time string based on timedelta until train prediction
 def get_display_time(diff_time, vehicle, stops, station_name):
@@ -72,11 +71,8 @@ def get_display_time(diff_time, vehicle, stops, station_name):
         return '1 min' # approaching
     
     minutes = round(diff_time.total_seconds() / 60)
-
-    if minutes > 20:
-        return '20+ min'
     
-    return str(minutes) + ' min'
+    return '20+ min' if minutes > 20 else str(minutes) + ' min'
 
 # get mbta train times
 def get_trains(station_name, timezone):
@@ -129,9 +125,10 @@ def get_trains(station_name, timezone):
 
 def update_svg():
     # get weather data
-    high, low, current_temp, current_weather_code, hourly_dataframe = get_weather()
-
+    high, low, current_temp, current_weather_code, hourly_dataframe, sunset, sunrise = get_weather()
     date = datetime.now()
+    sunset_time = datetime.fromtimestamp(sunset)
+    sunrise_time = datetime.fromtimestamp(sunrise)
 
     # modify svg template
     xml = etree.parse('static/template.svg')
@@ -168,7 +165,9 @@ def update_svg():
     # embed icons because linking file does not work when converting to png
 
     # current weather icon
-    icon_xml = etree.parse(f"static/icons/{int(current_weather_code)}.svg")
+    dark = date > sunset_time and date < sunrise_time and current_weather_code <= 2
+    icon_xml = etree.parse(f"static/icons/{int(current_weather_code)}{'n' if dark else ''}.svg")
+
     icon = icon_xml.getroot()
     icon.set('x', '94')
     icon.set('y', '2')
@@ -176,7 +175,10 @@ def update_svg():
 
     # next 6 hours
     for i in range(6):
-        icon_xml = etree.parse(f"static/icons/{int(hourly_dataframe['weather_code'][i+currhour+1])}.svg")
+        hour = i+currhour+1
+        weather_code = int(hourly_dataframe['weather_code'][hour])
+        dark = (hour >= sunset_time.hour + 1 or hour <= sunrise_time.hour) and weather_code <= 2
+        icon_xml = etree.parse(f"static/icons/{weather_code}{'n' if dark else ''}.svg")
         icon = icon_xml.getroot()
         icon.set('id', 'icon'+str(i))
         icon.set('x', str(25*i))
@@ -200,5 +202,3 @@ def update_svg():
 
     # updated svg
     xml.write('static/dash.svg')
-
-update_svg()
