@@ -10,4 +10,6 @@ A custom Flask server retrieves weather forecast data and train arrival time pre
 
 The Kindle tablet runs /kindle/dash.sh as a [scriptlet](https://kindlemodding.org/kindle-dev/scriptlets.html) and retrieves the image from the server once per minute and displays using the [fbink](https://github.com/NiLuJe/FBInk) tool. The tablet must be plugged in to avoid switching to the screensaver after a few minutes of inactivity.
 
-![eink dashboard showing weather and train predictions](https://github.com/abbymartin/eink-dashboard/blob/main/server/static/dash.png)
+![eink dashboard image example](https://github.com/abbymartin/eink-dashboard/blob/main/server/static/dash.png)
+
+![eink dashboard on physical tablet](https://github.com/abbymartin/eink-dashboard/blob/main/kindle_dashboard.jpg)
